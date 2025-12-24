@@ -5,7 +5,6 @@
 This project implements a **cost-based SQL query optimizer** inspired by **System R (Selinger) optimization**.
 The optimizer estimates join costs and cardinalities, enumerates valid join orders using **dynamic programming**, and selects the **lowest-cost execution plan**.
 
-Unlike typical DBMS projects that focus on SQL parsing or CRUD operations, this project focuses on **how real databases decide *which* query plan to execute**.
 
 ---
 
