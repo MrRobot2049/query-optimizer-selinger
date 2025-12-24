@@ -3,12 +3,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-static long long get_distinct(
-    const Plan& left,
-    const Relation& right,
-    const JoinPredicate& pred,
-    bool left_side
-) {
+static long long get_distinct(const Plan& left, const Relation& right, const JoinPredicate& pred, bool left_side) {
     if (left_side) {
         if (left.distinct.count(pred.left_attr))
             return left.distinct.at(pred.left_attr);
@@ -24,11 +19,7 @@ static long long get_distinct(
 }
 
 
-long long estimate_join_cardinality(
-    const Plan& left,
-    const Relation& right,
-    const JoinPredicate& pred
-) {
+long long estimate_join_cardinality(const Plan& left,const Relation& right,const JoinPredicate& pred) {
     long long left_card = left.cardinality;
     long long right_card = right.num_tuples;
 
@@ -41,10 +32,6 @@ long long estimate_join_cardinality(
     return (left_card * right_card) / denom;
 }
 
-double estimate_hash_join_cost(
-    const Plan& left,
-    const Relation& right
-) {
-    // very simple model
+double estimate_hash_join_cost(const Plan& left, const Relation& right) {
     return left.cost + left.cardinality + right.num_pages;
 }
