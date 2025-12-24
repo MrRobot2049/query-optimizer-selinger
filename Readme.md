@@ -27,9 +27,7 @@ Unlike typical DBMS projects that focus on SQL parsing or CRUD operations, this 
 
   * Attribute-level distinct counts
   * Correct equi-join cardinality estimation
-    [
-    |R \Join S| = \frac{|R| \cdot |S|}{\max(V(R.a), V(S.b))}
-    ]
+    |R ⋈ S| = (|R| × |S|) / max(V(R.a), V(S.b))
   * Statistics propagated across intermediate join results
 
 * **Predicate-Aware Join Enumeration**
@@ -78,9 +76,7 @@ best({S}) = Scan(S)
 
 For any subset of relations `S`:
 
-[
-best(S) = \min_{r \in S} \big( best(S \setminus {r}) \Join r \big)
-]
+best(S) = min over r in S of(best(S \ {r}) ⋈ r)
 
 Only the cheapest plan for each subset is retained.
 
