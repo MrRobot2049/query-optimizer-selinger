@@ -3,12 +3,7 @@ using namespace std;
 #include "optimizer.h"
 #include "cost.h"
 
-static unordered_map<string, long long>
-propagate_stats(
-    const Plan& left,
-    const Relation& right,
-    const JoinPredicate& pred
-) {
+static unordered_map<string, long long> propagate_stats(const Plan& left,const Relation& right,const JoinPredicate& pred){
     unordered_map<string, long long> result;
 
     // copy left stats
@@ -40,34 +35,21 @@ propagate_stats(
 }
 
 
-void gen_subsets(
-    const vector<string>& rels,
-    int idx,
-    int k,
-    set<string>& curr,
-    vector<set<string>>& result
-) {
+void gen_subsets(const vector<string>& rels,int idx,int k,set<string>& curr,vector<set<string>>& result){
     if (curr.size() == k) {
         result.push_back(curr);
         return;
     }
     if (idx == rels.size()) return;
 
-    // include current relation
     curr.insert(rels[idx]);
     gen_subsets(rels, idx + 1, k, curr, result);
     curr.erase(rels[idx]);
-
-    // exclude current relation
+    
     gen_subsets(rels, idx + 1, k, curr, result);
 }
 
-bool has_join_predicate(
-    const set<string>& left,
-    const string& right,
-    const vector<JoinPredicate>& join_preds,
-    JoinPredicate& out
-) {
+bool has_join_predicate(const set<string>& left,const string& right,const vector<JoinPredicate>& join_preds,JoinPredicate& out){
     for (auto& p : join_preds) {
         if (left.count(p.left_rel) && p.right_rel == right) {
             out = p;
@@ -81,10 +63,7 @@ bool has_join_predicate(
     return false;
 }
 
-Plan optimize_query(
-    const map<string, Relation>& relations,
-    const vector<JoinPredicate>& join_preds
-) {
+Plan optimize_query(const map<string, Relation>& relations,const vector<JoinPredicate>& join_preds){
     map<set<string>, Plan> best;
 
     // ---- Base scan plans ----
@@ -150,11 +129,7 @@ Plan optimize_query(
     return best[all];
 }
 
-Plan naive_plan(
-    const map<string, Relation>& relations,
-    const vector<JoinPredicate>& join_preds,
-    const vector<string>& order
-) {
+Plan naive_plan(const map<string, Relation>& relations,const vector<JoinPredicate>& join_preds,const vector<string>& order){
     Plan curr;
 
     // base scan
