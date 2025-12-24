@@ -1,0 +1,9 @@
+# build output
+optimizer
+*.o
+
+# OS files
+.DS_Store
+
+# editor
+.vscode/
